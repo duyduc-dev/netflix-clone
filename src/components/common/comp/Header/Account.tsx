@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { useHover } from 'hooks-react-custom';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import * as React from 'react';
 
 import accountImg from '~/assets/images/account.png';
@@ -14,6 +15,11 @@ const Account = (props: AccountProps) => {
 
   const [buttonRef, isHover] = useHover<HTMLButtonElement>();
   const [popupDivRef, isHoverPopup] = useHover<HTMLDivElement>();
+  const router = useRouter();
+
+  const handleClickSignOut = () => {
+    router.push('/');
+  };
 
   const render = React.useCallback(
     () => (
@@ -24,7 +30,10 @@ const Account = (props: AccountProps) => {
           </div>
           <div className="leading-[16px] text-[13px]">Account</div>
         </div>
-        <div className="py-[10px] border-0 border-t border-[hsla(0,0%,100%,.25)] cursor-pointer text-center hover:underline">
+        <div
+          onClick={handleClickSignOut}
+          className="py-[10px] border-0 border-t border-[hsla(0,0%,100%,.25)] cursor-pointer text-center hover:underline"
+        >
           <span>Sign out of Netflix</span>
         </div>
       </div>

@@ -100,3 +100,14 @@ export const getDocumentaries = async () => {
     console.log('🚀 ~ file: function.ts:99 ~ getDocumentaries ~ error', error);
   }
 };
+
+export const searchMovie = async (query: string, page: number = 1) => {
+  try {
+    const result = await request.GET(
+      `${constants.BASE_URL}/search/movie?api_key=${constants.API_KEY}&language=en-US&query=${query}&page=${page}`
+    );
+    return result?.results;
+  } catch (error) {
+    console.log('🚀 ~ file: function.ts:108 ~ searchMovie ~ error', error);
+  }
+};

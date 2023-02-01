@@ -46,7 +46,7 @@ const Row: React.FC<RowProps> = props => {
           ref={rowRef}
           className="flex items-center scrollbar-hide space-x-0.5 overflow-x-scroll md:space-x-2.5 md:p-2"
         >
-          {movies.map(movie => (
+          {movies?.map(movie => (
             <MovieThumbnail key={movie.id} movie={movie} />
           ))}
         </div>

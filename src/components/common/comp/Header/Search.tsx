@@ -1,11 +1,21 @@
 import classNames from 'classnames';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { FaTimes } from 'react-icons/fa';
-import { useBoolean, useInput, useKeyPressHandler, useLocalStorage, useOnClickOutside } from 'hooks-react-custom';
+import {
+  useBoolean,
+  useDebounce,
+  useInput,
+  useIsomorphicLayoutEffect,
+  useKeyPressHandler,
+  useLocalStorage,
+  useOnClickOutside,
+} from 'hooks-react-custom';
 import { useRouter } from 'next/router';
 
 import { IconSearch } from '~/components/icon';
 import { constants, routesPath } from '~/utils/constants/common';
+import { useRecoilState } from 'recoil';
+import { searchTextState } from '~/store/searchState';
 
 interface SearchProps {}
 
@@ -18,6 +28,7 @@ const Search = (props: SearchProps) => {
   const [redirect, setRedirectLocal, removeRedirect] = useLocalStorage(constants.LOCAL_REDIRECT_SEARCH, router.asPath);
   const inputRef = useRef<HTMLInputElement>(null);
   const divRef = useRef<HTMLDivElement>(null);
+  const [, setSearchText] = useRecoilState(searchTextState);
   const isPathnameEqualSearch = useMemo(() => router.pathname === routesPath.search, [router.pathname]);
   const visibleSearch = useMemo(() => isFocus || isPathnameEqualSearch, [isFocus, isPathnameEqualSearch]);
 
@@ -42,9 +53,10 @@ const Search = (props: SearchProps) => {
     inputRef.current?.blur();
   });
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (hasValue && value) {
       if (!isPathnameEqualSearch) setRedirectLocal(router.asPath);
+      setSearchText(value);
       router.push({
         pathname: routesPath.search,
         query: {
@@ -52,13 +64,14 @@ const Search = (props: SearchProps) => {
         },
       });
     } else {
-      router.push(redirect);
+      const url = redirect.includes(routesPath.search) ? routesPath.browse : redirect;
+      router.push(url);
       removeRedirect();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasValue, value, isPathnameEqualSearch]);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!isPathnameEqualSearch) setValue('');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPathnameEqualSearch]);

@@ -5,7 +5,6 @@ import { useRecoilValue } from 'recoil';
 
 import { MainLayout } from '~/components/common/layouts';
 import { Banner, Row, RowProps } from '~/components/modules/browse';
-import ModalDetailMovie from '~/components/modules/browse/ModalDetailMovie';
 import { Movie } from '~/interfaces/Movie';
 import {
   getActionMovies,
@@ -13,15 +12,15 @@ import {
   getDocumentaries,
   getHorrorMovies,
   getNetflixOriginals,
-  getRomanceMovies,
   getTopRated,
   getTrending,
 } from '~/services/function';
 import { modalVisibleState } from '~/store/modalState';
+import ModalDetailMovie from '~/components/modules/browse/ModalDetailMovie';
 
 interface BrowseProps {
   netflixOriginals: Movie[];
-  trendingRow: Movie[];
+  trendingNow: Movie[];
   topRated: Movie[];
   actionMovies: Movie[];
   comedyMovies: Movie[];
@@ -30,20 +29,19 @@ interface BrowseProps {
 }
 
 function Browse(props: BrowseProps) {
-  const { netflixOriginals, trendingRow, topRated, actionMovies, comedyMovies, horrorMovies, documentaries } = props;
-
+  const { netflixOriginals, trendingNow, topRated, actionMovies, comedyMovies, horrorMovies, documentaries } = props;
   const isShowModal = useRecoilValue(modalVisibleState);
 
   const rows: RowProps[] = React.useMemo(
     () => [
-      { title: 'Trending Now', movies: trendingRow },
+      { title: 'Trending Now', movies: trendingNow },
       { title: 'Top Rated', movies: topRated },
       { title: 'Action Movies', movies: actionMovies },
       { title: 'Comedy Movies', movies: comedyMovies },
       { title: 'Horror Movies', movies: horrorMovies },
       { title: 'Documentaries', movies: documentaries },
     ],
-    [actionMovies, comedyMovies, documentaries, horrorMovies, topRated, trendingRow]
+    [actionMovies, comedyMovies, documentaries, horrorMovies, topRated, trendingNow]
   );
 
   return (
@@ -67,7 +65,7 @@ function Browse(props: BrowseProps) {
 Browse.Layout = MainLayout;
 
 export const getServerSideProps: GetServerSideProps<BrowseProps> = async () => {
-  const [netflixOriginals, trendingRow, topRated, actionMovies, comedyMovies, horrorMovies, documentaries] =
+  const [netflixOriginals, trendingNow, topRated, actionMovies, comedyMovies, horrorMovies, documentaries] =
     await Promise.all([
       getNetflixOriginals(),
       getTrending(),
@@ -80,7 +78,7 @@ export const getServerSideProps: GetServerSideProps<BrowseProps> = async () => {
   return {
     props: {
       netflixOriginals: netflixOriginals || [],
-      trendingRow: trendingRow || [],
+      trendingNow: trendingNow || [],
       topRated: topRated || [],
       actionMovies: actionMovies || [],
       comedyMovies: comedyMovies || [],
