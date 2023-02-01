@@ -1,10 +1,12 @@
-/* eslint-disable @next/next/no-img-element */
 import classNames from 'classnames';
+import Image from 'next/image';
 import * as React from 'react';
 import { AiFillInfoCircle } from 'react-icons/ai';
 import { FaPlay } from 'react-icons/fa';
+import { useRecoilState } from 'recoil';
 
 import { Movie } from '~/interfaces/Movie';
+import { modalVisibleState, movieDetailModalState } from '~/store/modalState';
 import { constants } from '~/utils/constants/common';
 
 import styles from './browse.module.scss';
@@ -17,18 +19,26 @@ const Banner: React.FC<BannerProps> = props => {
   const { netflixOriginals } = props;
 
   const [movie, setMovie] = React.useState<Movie | null>(null);
+  const [, setShowModal] = useRecoilState(modalVisibleState);
+  const [, setCurrentMovie] = useRecoilState(movieDetailModalState);
+
+  const handleClickMoreInfo = () => {
+    setShowModal(true);
+    setCurrentMovie(movie);
+  };
 
   React.useEffect(() => {
     setMovie(netflixOriginals[Math.floor(Math.random() * netflixOriginals?.length)]);
   }, [netflixOriginals]);
 
   return (
-    <div className="relative top-0 left-0 right-0">
+    <div className="relative top-0 left-0 right-0 bg-black mb-5 pb-[50%] touch-pan-y select-none">
       <div className="absolute bg-black h-[56.25vw] w-full">
-        <img
+        <Image
           src={`${constants.BASE_URL_IMAGE}${movie?.backdrop_path || movie?.poster_path}`}
           alt=""
-          className={classNames(styles.Banner__img)}
+          layout="fill"
+          className={classNames('z-[0]', styles.Banner__img)}
         />
         <div className={styles.Banner__shadow}></div>
         <div className={styles.Banner__shadow1}></div>
@@ -43,7 +53,10 @@ const Banner: React.FC<BannerProps> = props => {
                 <FaPlay className="w-4 h-4 text-black md:h-7 md:w-7" />
                 Play
               </button>
-              <button className="cursor-pointer flex items-center gap-x-2 rounded px-5 py-1.5 text-sm font-semibold transition hover:opacity-75 md:py-2.5 md:px-8 md:text-xl bg-[gray]/70">
+              <button
+                className="cursor-pointer flex items-center gap-x-2 rounded px-5 py-1.5 text-sm font-semibold transition hover:opacity-75 md:py-2.5 md:px-8 md:text-xl bg-[gray]/70"
+                onClick={handleClickMoreInfo}
+              >
                 More Info <AiFillInfoCircle className="w-5 h-5 md:h-8 md:w-8" />
               </button>
             </div>

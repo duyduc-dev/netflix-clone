@@ -51,10 +51,12 @@ module.exports = {
 
       primaryRed: '#e50914',
       philippine_gray: '#8c8c8c',
+      gray_80: '#808080',
       nickel: '#737373',
       platinum: '#e5e5e5',
       fulvous: '#e87c03',
-      chinese_black: '#141414'
+      chinese_black: '#141414',
+
     }),
     columns: {
       auto: 'auto',
@@ -982,5 +984,8 @@ module.exports = {
     'active',
     'disabled',
   ],
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar-hide'),
+    require('tailwind-scrollbar'),
+  ],
 }

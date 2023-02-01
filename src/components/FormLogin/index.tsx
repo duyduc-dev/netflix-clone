@@ -2,6 +2,12 @@ import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+
+import Input from './Input';
+import { routesPath } from '~/utils/constants/common';
+
 interface LoginSchema {
   email: string;
   password: string;
@@ -11,11 +17,6 @@ const loginSchema = yup.object().shape({
   email: yup.string().required('Email is required.').email('Please enter a valid email.'),
   password: yup.string().required('Password is required.').min(6, 'The shortest password is 6'),
 });
-
-import Input from './Input';
-import Link from 'next/link';
-import { routesPath } from '~/utils/constants/common';
-import { useRouter } from 'next/router';
 
 interface FormLoginProps {}
 
@@ -44,12 +45,7 @@ function FormLogin(props: FormLoginProps) {
         <h1 className="text-[32px] font-[500] mb-[28px]">Sign In</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div>
-            <Input
-              placeholder="Email"
-              error={errors.email?.message}
-              register={register}
-              name="email"
-            />
+            <Input placeholder="Email" error={errors.email?.message} register={register} name="email" />
           </div>
           <div className="mt-8">
             <Input
