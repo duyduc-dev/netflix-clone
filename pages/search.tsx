@@ -13,6 +13,7 @@ import { MainLayout } from '~/components/common/layouts';
 import ModalDetailMovie from '~/components/modules/browse/ModalDetailMovie';
 import { NotFoundMovie } from '~/components/modules/search';
 import MovieThumbnail from '~/components/MovieThumbnail';
+import { useAuth } from '~/context/AuthContext';
 import { Movie } from '~/interfaces/Movie';
 import { searchMovie } from '~/services/function';
 import { modalVisibleState } from '~/store/modalState';
@@ -55,7 +56,7 @@ const SearchPage = (props: SearchPageProps) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <main className="md:px-[60px] px-[4%] min-h-[calc(100vh_-_346px)] bg-chinese_black pt-[100px]">
-        <div className="flex flex-wrap justify-between gap-y-10">
+        <div className="flex flex-wrap justify-start gap-x-5 gap-y-10">
           {movies && movies?.length > 0 ? (
             movies?.map((movie, i) => <MovieThumbnail key={`${movie.id}-${i}`} movie={movie} />)
           ) : (

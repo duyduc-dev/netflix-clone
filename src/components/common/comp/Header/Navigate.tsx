@@ -6,7 +6,7 @@ import { AiFillCaretDown } from 'react-icons/ai';
 import { useHover } from 'hooks-react-custom';
 
 import Popup from '~/components/Popup';
-import { routesPath } from '~/utils/constants/common';
+import { privateRoutes } from '~/utils/constants/common';
 import rawNavigate from '~/utils/constants/rawData/rawNavigate';
 
 interface NavigateProps {}
@@ -70,7 +70,7 @@ const Navigate: React.FC<NavigateProps> = props => {
       >
         <Link
           ref={anchorRef}
-          href={routesPath.browse}
+          href={privateRoutes.browse}
           className="ml-5 text-white md:text-[14px] text-[12px] font-[500] flex items-center gap-1"
         >
           Browse

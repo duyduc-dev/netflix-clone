@@ -1,16 +1,35 @@
 import * as React from 'react';
 import { Modal } from '@mui/material';
 import ReactPlayer from 'react-player';
-import { Toaster } from 'react-hot-toast';
+import { toast, Toaster } from 'react-hot-toast';
 import { HiThumbUp } from 'react-icons/hi';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useArray, useAsync, useBoolean } from 'hooks-react-custom';
-import { AiFillPlayCircle, AiOutlineClose } from 'react-icons/ai';
+import {
+  AiFillCheckCircle,
+  AiFillPlayCircle,
+  AiOutlineClose,
+  AiOutlinePlus,
+  AiOutlinePlusCircle,
+} from 'react-icons/ai';
 import { BsFillVolumeMuteFill, BsFillVolumeUpFill } from 'react-icons/bs';
 
 import { Genre, Movie } from '~/interfaces/Movie';
 import { modalVisibleState, movieDetailModalState } from '~/store/modalState';
 import { getMovieTrailerVsGenres } from '~/services/function';
+import { addToMyList, deleteMovieInMyList } from '~/services/firebase';
+import { useAuth } from '~/context/AuthContext';
+import { useMyList } from '~/hooks/useMyList';
+
+const toastStyle = {
+  background: 'white',
+  color: 'black',
+  fontWeight: 'bold',
+  fontSize: '1rem',
+  padding: '15px',
+  borderRadius: '9999px',
+  maxWidth: '1000px',
+};
 
 interface ModalDetailMovieProps {}
 
@@ -20,12 +39,32 @@ const ModalDetailMovie: React.FC<ModalDetailMovieProps> = props => {
   const [isShowModal, setShowModal] = useRecoilState(modalVisibleState);
   const movie = useRecoilValue(movieDetailModalState);
   const [trailer, setTrailer] = React.useState<string | null>(null);
-  const [genres, actionsArray] = useArray<Genre>([]);
+  const [genres, setGenres] = React.useState<Genre[]>([]);
+  const [addedToList, setAddedToList] = React.useState<boolean>(false);
   const [muted, actionMuted] = useBoolean();
+  const { user } = useAuth();
+  const moviesInList = useMyList();
 
   const { execute, status, value, error } = useAsync(async () => movie && (await getMovieTrailerVsGenres(movie)));
 
   const handleCloseModal = () => setShowModal(false);
+
+  const handleAddToList = async () => {
+    if (addedToList && user && movie) {
+      await deleteMovieInMyList(user.uid, movie.id.toString());
+      toast(`${movie.title || movie.original_name} has been removed from your list`, {
+        duration: 8000,
+        style: toastStyle,
+      });
+    }
+    if (!addedToList && user && movie) {
+      await addToMyList(user.uid, movie.id.toString(), movie);
+      toast(`${movie.title || movie.original_name} has been added to your list`, {
+        duration: 8000,
+        style: toastStyle,
+      });
+    }
+  };
 
   React.useEffect(() => {
     switch (status) {
@@ -34,7 +73,7 @@ const ModalDetailMovie: React.FC<ModalDetailMovieProps> = props => {
         break;
       case 'success':
         setTrailer(value?.trailerKey || null);
-        actionsArray.setValue(value?.genres || []);
+        setGenres(value?.genres || []);
         break;
       case 'error':
         console.log('🚀 ~ file: ModalDetailMovie.tsx:27 ~ error', error);
@@ -43,6 +82,10 @@ const ModalDetailMovie: React.FC<ModalDetailMovieProps> = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
 
+  React.useEffect(() => {
+    setAddedToList(moviesInList.findIndex(result => result.data().id === movie?.id) !== -1);
+  }, [moviesInList]);
+
   return (
     <Modal
       open={isShowModal}
@@ -50,7 +93,6 @@ const ModalDetailMovie: React.FC<ModalDetailMovieProps> = props => {
       className="fixed !top-7 left-0 right-0 z-50 mx-auto w-full max-w-5xl overflow-hidden overflow-y-scroll rounded-md scrollbar-hide"
     >
       <div className="overflow-hidden bg-white rounded-md">
-        <Toaster position="bottom-center" />
         <button
           onClick={handleCloseModal}
           className="modalButton absolute right-5 top-5 z-40 h-9 w-9 border-none text-white bg-[#181818] hover:bg-[#181818]"
@@ -72,7 +114,9 @@ const ModalDetailMovie: React.FC<ModalDetailMovieProps> = props => {
                 <AiFillPlayCircle className="text-black h-7 w-7" />
                 Play
               </button>
-
+              <button className="text-white modalButton" onClick={handleAddToList}>
+                {addedToList ? <AiFillCheckCircle className="h-7 w-7" /> : <AiOutlinePlus className="h-7 w-7" />}
+              </button>
               <button className="text-white cursor-not-allowed modalButton">
                 <HiThumbUp className="h-7 w-7" />
               </button>

@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 import { IconNetflix } from '~/components/icon';
 import bgNetflix from '~/assets/images/bgNetflix.jpg';
-import { routesPath } from '~/utils/constants/common';
+import { publicRoutes } from '~/utils/constants/common';
 import FormLogin from '~/components/FormLogin';
 
 interface LoginProps {}
@@ -29,7 +29,7 @@ function Login(props: LoginProps) {
           </div>
           <div className="flex items-center pt-5">
             <div className="flex items-center justify-between w-full pt-2 mx-14">
-              <Link href={routesPath.index} className="text-red-500 !h-[36px]">
+              <Link href={publicRoutes.index} className="text-red-500 !h-[36px]">
                 <IconNetflix height={36} />
               </Link>
             </div>

@@ -1,4 +1,4 @@
-import { routesPath } from '~/utils/constants/common';
+import { privateRoutes, publicRoutes } from '~/utils/constants/common';
 
 interface INavigate {
   title: string;
@@ -6,10 +6,8 @@ interface INavigate {
 }
 
 const rawNavigate: Array<INavigate> = [
-  { title: 'Home', href: routesPath.browse },
-  { title: 'TV Shows', href: routesPath.TVshows },
-  { title: 'Movies', href: routesPath.movies },
-  { title: 'New & Popular', href: routesPath.latest },
+  { title: 'Home', href: privateRoutes.browse },
+  { title: 'My List', href: privateRoutes.myList },
 ];
 
 export default rawNavigate;

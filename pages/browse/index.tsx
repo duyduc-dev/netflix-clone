@@ -17,6 +17,7 @@ import {
 } from '~/services/function';
 import { modalVisibleState } from '~/store/modalState';
 import ModalDetailMovie from '~/components/modules/browse/ModalDetailMovie';
+import { useAuth } from '~/context/AuthContext';
 
 interface BrowseProps {
   netflixOriginals: Movie[];

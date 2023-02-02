@@ -8,13 +8,14 @@ interface InputProps {
   error?: any;
   placeholder: string;
   type?: 'text' | 'password';
+  value?: string;
 }
 
 function Input(props: InputProps) {
-  const { name, register, error, placeholder, type = 'text' } = props;
+  const { name, register, error, placeholder, type = 'text', value } = props;
 
   const [isInputFocus, actionsBoolean] = useBoolean();
-  const { eventBind, hasValue } = useInput('');
+  const { eventBind, hasValue } = useInput(value);
 
   return (
     <div className="relative h-[50px] my-5">

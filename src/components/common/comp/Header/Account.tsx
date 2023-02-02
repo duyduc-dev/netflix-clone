@@ -7,6 +7,7 @@ import * as React from 'react';
 import accountImg from '~/assets/images/account.png';
 import { IconUser } from '~/components/icon';
 import Popup from '~/components/Popup';
+import { useAuth } from '~/context/AuthContext';
 
 interface AccountProps {}
 
@@ -15,10 +16,12 @@ const Account = (props: AccountProps) => {
 
   const [buttonRef, isHover] = useHover<HTMLButtonElement>();
   const [popupDivRef, isHoverPopup] = useHover<HTMLDivElement>();
+  const { logout } = useAuth();
   const router = useRouter();
 
-  const handleClickSignOut = () => {
+  const handleClickSignOut = async () => {
     router.push('/');
+    await logout();
   };
 
   const render = React.useCallback(

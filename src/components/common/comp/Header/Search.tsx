@@ -13,7 +13,7 @@ import {
 import { useRouter } from 'next/router';
 
 import { IconSearch } from '~/components/icon';
-import { constants, routesPath } from '~/utils/constants/common';
+import { constants, privateRoutes } from '~/utils/constants/common';
 import { useRecoilState } from 'recoil';
 import { searchTextState } from '~/store/searchState';
 
@@ -29,7 +29,7 @@ const Search = (props: SearchProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const divRef = useRef<HTMLDivElement>(null);
   const [, setSearchText] = useRecoilState(searchTextState);
-  const isPathnameEqualSearch = useMemo(() => router.pathname === routesPath.search, [router.pathname]);
+  const isPathnameEqualSearch = useMemo(() => router.pathname === privateRoutes.search, [router.pathname]);
   const visibleSearch = useMemo(() => isFocus || isPathnameEqualSearch, [isFocus, isPathnameEqualSearch]);
 
   const handleClickSearch = () => {
@@ -58,13 +58,13 @@ const Search = (props: SearchProps) => {
       if (!isPathnameEqualSearch) setRedirectLocal(router.asPath);
       setSearchText(value);
       router.push({
-        pathname: routesPath.search,
+        pathname: privateRoutes.search,
         query: {
           q: value,
         },
       });
     } else {
-      const url = redirect.includes(routesPath.search) ? routesPath.browse : redirect;
+      const url = redirect.includes(privateRoutes.search) ? privateRoutes.browse : redirect;
       router.push(url);
       removeRedirect();
     }

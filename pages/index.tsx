@@ -1,18 +1,30 @@
 import Head from 'next/head';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { useInput } from 'hooks-react-custom';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRecoilState } from 'recoil';
+import { useRouter } from 'next/router';
+import * as yup from 'yup';
 
 import { IconLoading, IconNetflix } from '~/components/icon';
-import { routesPath } from '~/utils/constants/common';
+import { publicRoutes } from '~/utils/constants/common';
+import { isExistEmailUser } from '~/services/firebase';
+import { emailLoginState } from '~/store/emailLoginState';
 
 import bgNetflix from '~/assets/images/bgNetflix.jpg';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { toast } from 'react-hot-toast';
+import validateEmail from '~/utils/helper/validateEmail';
 
 export default function StartPage() {
+  const [, setEmailLogin] = useRecoilState(emailLoginState);
   const [isInputFocus, setIsInputFocus] = useState(false);
+  const [isPending, setIsPending] = useState(false);
   const { eventBind, value, hasValue } = useInput('');
+  const router = useRouter();
 
   const handleFocusInput = () => {
     setIsInputFocus(true);
@@ -20,6 +32,23 @@ export default function StartPage() {
 
   const handleBlurInput = () => {
     setIsInputFocus(false);
+  };
+
+  const handleClickStarted = async () => {
+    setIsPending(true);
+    if (validateEmail(value)) {
+      const data = await isExistEmailUser(value);
+      if (data && data?.email) {
+        setEmailLogin(data.email);
+        router.push(publicRoutes.login);
+      } else {
+        setEmailLogin(value);
+        router.push(publicRoutes.signUpRegistration);
+      }
+    } else {
+      toast.error('Incorrect email format');
+    }
+    setIsPending(false);
   };
 
   return (
@@ -38,12 +67,12 @@ export default function StartPage() {
           </div>
           l
           <div className="flex items-center pt-5">
-            <div className="flex items-center justify-between pt-2 mx-14 w-full">
+            <div className="flex items-center justify-between w-full pt-2 mx-14">
               <div className="text-red-500 !h-[36px]">
                 <IconNetflix height={36} />
               </div>
               <div>
-                <Link href={routesPath.login}>
+                <Link href={publicRoutes.login}>
                   <button className="bg-primaryRed font-[500] text-[16px] text-white rounded-lg p-[7px_17px]">
                     Sign In
                   </button>
@@ -63,9 +92,10 @@ export default function StartPage() {
                 <h3 className="text-white text-[19px] font-[400] pb-5">
                   Ready to watch? Enter your email to create or restart your membership.
                 </h3>
-                <div className="flex md:flex-row flex-col">
-                  <div className="w-full relative">
+                <div className="flex flex-col md:flex-row">
+                  <div className="relative w-full">
                     <input
+                      autoComplete="off"
                       type="text"
                       className="border h-[70px] font-[400] min-w-[500] w-full px-4"
                       onFocus={handleFocusInput}
@@ -88,11 +118,17 @@ export default function StartPage() {
                       </span>
                     </div>
                   </div>
-                  <button className="bg-primaryRed text-white px-[30px] h-[70px] md:text-[30px] text-[20px] font-[400] whitespace-nowrap">
-                    Get Started
-                    {/* <div className="">
-                      <IconLoading height={25} width={25} />
-                    </div> */}
+                  <button
+                    className="bg-primaryRed text-white px-[30px] h-[70px] md:text-[30px] text-[20px] font-[400] whitespace-nowrap transition-all duration-500"
+                    onClick={handleClickStarted}
+                  >
+                    {isPending ? (
+                      <div className="flex items-center -translate-y-2">
+                        <IconLoading height={25} width={25} />
+                      </div>
+                    ) : (
+                      <>Get Started</>
+                    )}
                   </button>
                 </div>
               </div>

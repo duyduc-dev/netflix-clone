@@ -50,12 +50,15 @@ module.exports = {
       rose: colors.rose,
 
       primaryRed: '#e50914',
+      international_orange: '#b92d2b',
       philippine_gray: '#8c8c8c',
       gray_80: '#808080',
       nickel: '#737373',
       platinum: '#e5e5e5',
+      platinum_e6: '#e6e6e6',
       fulvous: '#e87c03',
       chinese_black: '#141414',
+      dark_charcoal: '#333333'
 
     }),
     columns: {

@@ -5,14 +5,18 @@ export const constants = {
   API_KEY: process.env.API_KEY || '8e96ae057bb82164c94c0befb13dda21',
 };
 
-export const routesPath = {
+export const publicRoutes = {
   index: '/',
   login: '/login',
+  signup: '/signup',
+  signUpRegistration: '/signup/registration',
+  signUpRegForm: '/signup/regform',
+};
+
+export const privateRoutes = {
   splash: '/splash',
   browse: '/browse',
-  TVshows: '/browse/genre/tv',
-  movies: '/browse/genre/movie',
-  latest: '/latest',
+  myList: '/browse/my-list',
   search: '/search',
   myAccount: '/my-account',
 };
