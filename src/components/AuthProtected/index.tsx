@@ -2,6 +2,7 @@ import { useIsomorphicLayoutEffect } from 'hooks-react-custom';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 import { toast } from 'react-hot-toast';
+
 import { useAuth } from '~/context/AuthContext';
 import { publicRoutes } from '~/utils/constants/common';
 
@@ -14,6 +15,7 @@ const AuthProtected: React.FC<AuthProtectedProps> = props => {
 
   const { user } = useAuth();
   const router = useRouter();
+
   useIsomorphicLayoutEffect(() => {
     if (!Object.values(publicRoutes).includes(router.pathname) && !user) {
       router.push(publicRoutes.index);

@@ -4,16 +4,13 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 
-import accountImg from '~/assets/images/account.png';
 import { IconUser } from '~/components/icon';
 import Popup from '~/components/Popup';
 import { useAuth } from '~/context/AuthContext';
 
-interface AccountProps {}
+import accountImg from '~/assets/images/account.png';
 
-const Account = (props: AccountProps) => {
-  const {} = props;
-
+const Account = () => {
   const [buttonRef, isHover] = useHover<HTMLButtonElement>();
   const [popupDivRef, isHoverPopup] = useHover<HTMLDivElement>();
   const { logout } = useAuth();

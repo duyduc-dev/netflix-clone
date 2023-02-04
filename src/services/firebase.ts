@@ -1,4 +1,5 @@
 import { addDoc, collection, deleteDoc, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
+
 import { db } from '~/firebase';
 import { Movie } from '~/interfaces/Movie';
 

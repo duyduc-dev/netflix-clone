@@ -11,6 +11,7 @@ export const useMyList = () => {
   const { user } = useAuth();
   const movie = useRecoilValue(movieDetailModalState);
   const [moviesInList, setMoviesInList] = useState<DocumentData[] | Movie[]>([]);
+
   useEffect(() => {
     if (user) {
       return onSnapshot(collection(db, 'users', user.uid, 'myList'), snapshot => setMoviesInList(snapshot.docs));

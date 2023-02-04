@@ -1,11 +1,12 @@
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import * as React from 'react';
 import { useRecoilState } from 'recoil';
+
 import { Movie } from '~/interfaces/Movie';
+import { modalVisibleState, movieDetailModalState } from '~/store/modalState';
+import { constants } from '~/utils/constants/common';
 
 import imgMoviePlaceholder from '~/assets/images/imgMoviePlaceholder.jpg';
-
-import { modalVisibleState, movieDetailModalState } from '~/store/modalState';
 
 interface MovieThumbnailProps {
   movie: Movie;
@@ -15,8 +16,8 @@ const MovieThumbnail: React.FC<MovieThumbnailProps> = props => {
   const { movie } = props;
   const [, setShowModal] = useRecoilState(modalVisibleState);
   const [, setCurrentMovie] = useRecoilState(movieDetailModalState);
-  const [sourceImg, setSourceImg] = React.useState<any>(
-    `https://image.tmdb.org/t/p/w500${movie.backdrop_path || movie.poster_path}`
+  const [sourceImg, setSourceImg] = React.useState<string | StaticImageData>(
+    `${constants.BASE_URL_IMAGE_W500}${movie.backdrop_path || movie.poster_path}`
   );
 
   const handleClickThumbnail = () => {

@@ -15,7 +15,7 @@ interface PopupProps {
   render?: () => React.ReactNode;
 }
 
-const Popup: React.FC<PopupProps> = (props) => {
+const Popup: React.FC<PopupProps> = props => {
   const { children, visible, className, popupClassName, placement = { bottom: 10 }, popupRef, render } = props;
 
   return (
@@ -29,7 +29,7 @@ const Popup: React.FC<PopupProps> = (props) => {
           popupClassName
         )}
       >
-        <div style={{ height: placement.bottom || 0 }}></div>
+        <div style={{ height: placement.bottom || 0 }} />
         {render?.()}
       </div>
     </div>

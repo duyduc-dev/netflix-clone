@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import {
   useBoolean,
@@ -11,18 +11,14 @@ import {
   useOnClickOutside,
 } from 'hooks-react-custom';
 import { useRouter } from 'next/router';
+import { useRecoilState } from 'recoil';
 
 import { IconSearch } from '~/components/icon';
 import { constants, privateRoutes } from '~/utils/constants/common';
-import { useRecoilState } from 'recoil';
 import { searchTextState } from '~/store/searchState';
 
-interface SearchProps {}
-
-const Search = (props: SearchProps) => {
-  const {} = props;
-
-  const { eventBind, value, hasValue, setValue } = useInput('');
+const Search = () => {
+  const { eventBind, value, hasValue, clear } = useInput('');
   const router = useRouter();
   const [isFocus, actions] = useBoolean();
   const [redirect, setRedirectLocal, removeRedirect] = useLocalStorage(constants.LOCAL_REDIRECT_SEARCH, router.asPath);
@@ -38,7 +34,7 @@ const Search = (props: SearchProps) => {
   };
 
   const handleClickClose = () => {
-    setValue('');
+    clear();
     inputRef.current?.focus();
   };
 
@@ -72,7 +68,7 @@ const Search = (props: SearchProps) => {
   }, [hasValue, value, isPathnameEqualSearch]);
 
   useIsomorphicLayoutEffect(() => {
-    if (!isPathnameEqualSearch) setValue('');
+    if (!isPathnameEqualSearch) clear();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPathnameEqualSearch]);
 

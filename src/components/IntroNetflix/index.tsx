@@ -1,14 +1,8 @@
-import { useArray } from 'hooks-react-custom';
 import * as React from 'react';
+import { NETFLIX } from '~/utils/constants/common';
 
-interface IntroNetflixProps {}
-
-function IntroNetflix(props: IntroNetflixProps) {
-  const {} = props;
-
-  const [arrayLetter] = useArray<string>(['N', 'E', 'T', 'F', 'L', 'I', 'X']);
-
-  const randomLetter = arrayLetter[Math.floor(Math.random() * arrayLetter.length)];
+function IntroNetflix() {
+  const randomLetter = NETFLIX[Math.floor(Math.random() * NETFLIX.length)];
 
   return (
     <div className="splash">

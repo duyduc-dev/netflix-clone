@@ -1,38 +1,27 @@
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import classNames from 'classnames';
-import { useInput } from 'hooks-react-custom';
+import { useBoolean, useInput } from 'hooks-react-custom';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRecoilState } from 'recoil';
 import { useRouter } from 'next/router';
-import * as yup from 'yup';
+import { toast } from 'react-hot-toast';
 
 import { IconLoading, IconNetflix } from '~/components/icon';
 import { publicRoutes } from '~/utils/constants/common';
 import { isExistEmailUser } from '~/services/firebase';
 import { emailLoginState } from '~/store/emailLoginState';
+import validateEmail from '~/utils/helper/validateEmail';
 
 import bgNetflix from '~/assets/images/bgNetflix.jpg';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { toast } from 'react-hot-toast';
-import validateEmail from '~/utils/helper/validateEmail';
 
 export default function StartPage() {
   const [, setEmailLogin] = useRecoilState(emailLoginState);
-  const [isInputFocus, setIsInputFocus] = useState(false);
+  const [isInputFocus, setIsInputFocus] = useBoolean(false);
   const [isPending, setIsPending] = useState(false);
   const { eventBind, value, hasValue } = useInput('');
   const router = useRouter();
-
-  const handleFocusInput = () => {
-    setIsInputFocus(true);
-  };
-
-  const handleBlurInput = () => {
-    setIsInputFocus(false);
-  };
 
   const handleClickStarted = async () => {
     setIsPending(true);
@@ -98,19 +87,19 @@ export default function StartPage() {
                       autoComplete="off"
                       type="text"
                       className="border h-[70px] font-[400] min-w-[500] w-full px-4"
-                      onFocus={handleFocusInput}
-                      onBlur={handleBlurInput}
+                      onFocus={setIsInputFocus.setTrue}
+                      onBlur={setIsInputFocus.setFalse}
                       {...eventBind}
                     />
                     <div
                       className={classNames(
-                        'absolute  -translate-y-1/2 left-4 flex items-center transition-all duration-200 ease-linear pointer-events-none',
+                        'absolute -translate-y-1/2 left-4 flex items-center transition-all duration-200 ease-linear pointer-events-none',
                         isInputFocus || hasValue ? 'top-3' : 'top-1/2'
                       )}
                     >
                       <span
                         className={classNames(
-                          'text-[16px] font-[400] text-[#8c8c8c] transition-all duration-200 ease-linear',
+                          'text-[16px] font-[400] text-philippine_gray transition-all duration-200 ease-linear',
                           (isInputFocus || hasValue) && 'text-[13px]'
                         )}
                       >

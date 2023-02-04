@@ -1,17 +1,13 @@
 import * as React from 'react';
 import { useRecoilValue } from 'recoil';
+
 import { MainLayout } from '~/components/common/layouts';
 import ModalDetailMovie from '~/components/modules/browse/ModalDetailMovie';
-import { NotFoundMovie } from '~/components/modules/search';
 import MovieThumbnail from '~/components/MovieThumbnail';
-import { useAuth } from '~/context/AuthContext';
 import { useMyList } from '~/hooks/useMyList';
 import { modalVisibleState } from '~/store/modalState';
 
-interface MyListPageProps {}
-
-function MyListPage(props: MyListPageProps) {
-  const {} = props;
+function MyListPage() {
   const isShowModal = useRecoilValue(modalVisibleState);
   const movieInList = useMyList();
 

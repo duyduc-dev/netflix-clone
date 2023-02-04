@@ -1,10 +1,4 @@
-import {
-  useArray,
-  useDebounce,
-  useIsInViewport,
-  useIsomorphicLayoutEffect,
-  useScrollPosition,
-} from 'hooks-react-custom';
+import { useDebounce, useIsInViewport, useIsomorphicLayoutEffect, useScrollPosition } from 'hooks-react-custom';
 import Head from 'next/head';
 import * as React from 'react';
 import { useRecoilValue } from 'recoil';
@@ -13,17 +7,12 @@ import { MainLayout } from '~/components/common/layouts';
 import ModalDetailMovie from '~/components/modules/browse/ModalDetailMovie';
 import { NotFoundMovie } from '~/components/modules/search';
 import MovieThumbnail from '~/components/MovieThumbnail';
-import { useAuth } from '~/context/AuthContext';
 import { Movie } from '~/interfaces/Movie';
 import { searchMovie } from '~/services/function';
 import { modalVisibleState } from '~/store/modalState';
 import { searchTextState } from '~/store/searchState';
 
-interface SearchPageProps {}
-
-const SearchPage = (props: SearchPageProps) => {
-  const {} = props;
-
+const SearchPage = () => {
   const searchText = useRecoilValue(searchTextState);
   const isShowModal = useRecoilValue(modalVisibleState);
   const { debouncedValue } = useDebounce(searchText, 1000);
@@ -43,6 +32,7 @@ const SearchPage = (props: SearchPageProps) => {
     searchMovie(debouncedValue, page).then(res => {
       res && setMovies(p => [...p, ...res]);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   React.useEffect(() => {

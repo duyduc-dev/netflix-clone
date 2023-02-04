@@ -9,11 +9,7 @@ import Popup from '~/components/Popup';
 import { privateRoutes } from '~/utils/constants/common';
 import rawNavigate from '~/utils/constants/rawData/rawNavigate';
 
-interface NavigateProps {}
-
-const Navigate: React.FC<NavigateProps> = props => {
-  const {} = props;
-
+const Navigate = () => {
   const router = useRouter();
   const [anchorRef, isAnchorHover] = useHover<HTMLAnchorElement>();
   const [popupRef, isPopupHover] = useHover<HTMLDivElement>();

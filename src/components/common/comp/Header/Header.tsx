@@ -8,15 +8,11 @@ import { IconNetflix } from '~/components/icon';
 import { privateRoutes } from '~/utils/constants/common';
 import Search from './Search';
 import Account from './Account';
-
-import styles from './header.module.scss';
 import Navigate from './Navigate';
 
-interface HeaderProps {}
+import styles from './header.module.scss';
 
-function Header(props: HeaderProps) {
-  const {} = props;
-
+function Header() {
   const position = useScrollPosition();
   const router = useRouter();
 

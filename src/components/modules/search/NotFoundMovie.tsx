@@ -1,4 +1,8 @@
-export default function NotFoundMovie({ query }: { query: string }) {
+interface NotFoundMovieProps {
+  query: string;
+}
+
+export default function NotFoundMovie({ query }: NotFoundMovieProps) {
   return (
     <div className="flex justify-center w-full">
       <div className="text-xs text-white">

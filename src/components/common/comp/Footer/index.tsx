@@ -2,11 +2,7 @@ import * as React from 'react';
 import { FaFacebookF } from 'react-icons/fa';
 import { BsInstagram, BsTwitter, BsYoutube } from 'react-icons/bs';
 
-interface FooterProps {}
-
-const Footer: React.FC<FooterProps> = props => {
-  const {} = props;
-
+const Footer = () => {
   return (
     <footer className="pt-16 bg-chinese_black">
       <div className="max-w-[980px] mt-5 mx-auto w-full p-[4%]">

@@ -1,17 +1,13 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import dynamic from 'next/dynamic';
 
 import { privateRoutes } from '~/utils/constants/common';
-import { useAuth } from '~/context/AuthContext';
 
 const IntroNetflix = dynamic?.(() => import('~/components/IntroNetflix'), { ssr: false });
 
-interface splashProps {}
-
-function Splash(props: splashProps) {
-  const {} = props;
+function Splash() {
   const router = useRouter();
 
   useEffect(() => {

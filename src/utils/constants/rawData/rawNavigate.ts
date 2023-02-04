@@ -1,4 +1,4 @@
-import { privateRoutes, publicRoutes } from '~/utils/constants/common';
+import { privateRoutes } from '~/utils/constants/common';
 
 interface INavigate {
   title: string;

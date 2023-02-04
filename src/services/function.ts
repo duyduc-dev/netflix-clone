@@ -19,16 +19,14 @@ export const getMovieTrailerVsGenres = async (movie: Movie) => {
   };
   try {
     const data = await request.GET(
-      `https://api.themoviedb.org/3/${movie?.media_type === 'tv' ? 'tv' : 'movie'}/${movie?.id}?api_key=${
+      `${constants.BASE_URL}/${movie?.media_type === 'tv' ? 'tv' : 'movie'}/${movie?.id}?api_key=${
         constants.API_KEY
       }&language=en-US&append_to_response=videos`
     );
-
     if (data?.videos) {
       const index = data.videos.results.findIndex((element: Element) => element.type === 'Trailer');
       result.trailerKey = data.videos?.results[index]?.key;
     }
-
     if (data?.genres) {
       result.genres = data.genres;
     }

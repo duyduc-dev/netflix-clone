@@ -1,20 +1,14 @@
 import * as React from 'react';
 import { Modal } from '@mui/material';
 import ReactPlayer from 'react-player';
-import { toast, Toaster } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import { HiThumbUp } from 'react-icons/hi';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { useArray, useAsync, useBoolean } from 'hooks-react-custom';
-import {
-  AiFillCheckCircle,
-  AiFillPlayCircle,
-  AiOutlineClose,
-  AiOutlinePlus,
-  AiOutlinePlusCircle,
-} from 'react-icons/ai';
+import { useAsync, useBoolean } from 'hooks-react-custom';
+import { AiFillCheckCircle, AiFillPlayCircle, AiOutlineClose, AiOutlinePlus } from 'react-icons/ai';
 import { BsFillVolumeMuteFill, BsFillVolumeUpFill } from 'react-icons/bs';
 
-import { Genre, Movie } from '~/interfaces/Movie';
+import { Genre } from '~/interfaces/Movie';
 import { modalVisibleState, movieDetailModalState } from '~/store/modalState';
 import { getMovieTrailerVsGenres } from '~/services/function';
 import { addToMyList, deleteMovieInMyList } from '~/services/firebase';
@@ -31,11 +25,7 @@ const toastStyle = {
   maxWidth: '1000px',
 };
 
-interface ModalDetailMovieProps {}
-
-const ModalDetailMovie: React.FC<ModalDetailMovieProps> = props => {
-  const {} = props;
-
+const ModalDetailMovie = () => {
   const [isShowModal, setShowModal] = useRecoilState(modalVisibleState);
   const movie = useRecoilValue(movieDetailModalState);
   const [trailer, setTrailer] = React.useState<string | null>(null);

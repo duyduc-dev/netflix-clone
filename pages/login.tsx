@@ -4,15 +4,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import { IconNetflix } from '~/components/icon';
-import bgNetflix from '~/assets/images/bgNetflix.jpg';
 import { publicRoutes } from '~/utils/constants/common';
 import FormLogin from '~/components/FormLogin';
 
-interface LoginProps {}
+import bgNetflix from '~/assets/images/bgNetflix.jpg';
 
-function Login(props: LoginProps) {
-  const {} = props;
-
+function Login() {
   return (
     <>
       <Head>
@@ -24,7 +21,7 @@ function Login(props: LoginProps) {
       <div>
         <div className="relative min-h-screen">
           <div className="absolute top-0 left-0 bottom-0 right-0 z-[-2]">
-            <Image src={bgNetflix} alt="" className="object-cover w-full h-full" priority />
+            <Image src={bgNetflix} alt={bgNetflix.src} className="object-cover w-full h-full" priority />
             <div className="absolute top-0 left-0 bottom-0 right-0 bg-[rgba(0,0,0,.4)] z-[0] bg-start-page"></div>
           </div>
           <div className="flex items-center pt-5">

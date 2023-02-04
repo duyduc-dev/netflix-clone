@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-
-import Input from './Input';
-import { privateRoutes, publicRoutes } from '~/utils/constants/common';
 import { useRecoilValue } from 'recoil';
+import { toast } from 'react-hot-toast';
+
+import { privateRoutes, publicRoutes } from '~/utils/constants/common';
 import { emailLoginState } from '~/store/emailLoginState';
 import { useAuth } from '~/context/AuthContext';
-import { toast } from 'react-hot-toast';
+import Input from './Input';
 import { IconLoading } from '../icon';
-import { useIsomorphicLayoutEffect } from 'hooks-react-custom';
 
 interface LoginSchema {
   email: string;
@@ -30,7 +29,7 @@ function FormLogin(props: FormLoginProps) {
   const {} = props;
 
   const emailLogin = useRecoilValue(emailLoginState);
-  const { signIn, user } = useAuth();
+  const { signIn } = useAuth();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -100,8 +99,8 @@ function FormLogin(props: FormLoginProps) {
         </form>
         <div>
           <p className="text-nickel text-[16px] font-[400]">
-            New to Netflix?{' '}
-            <Link className="text-white hover:underline" href={publicRoutes.index}>
+            New to Netflix?
+            <Link className="ml-1 text-white hover:underline" href={publicRoutes.index}>
               Sign up now.
             </Link>
           </p>

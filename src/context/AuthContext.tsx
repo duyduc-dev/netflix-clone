@@ -16,11 +16,11 @@ import { publicRoutes } from '~/utils/constants/common';
 
 const AuthState: IAuth = {
   user: null,
+  loading: false,
+  error: null,
   signUp: async () => {},
   signIn: async () => {},
   logout: async () => {},
-  loading: false,
-  error: null,
   redirectLogin: () => {},
 };
 
@@ -62,7 +62,6 @@ export const AuthProvider: FC<AuthProviderProps> = props => {
 
   const signIn = useCallback(async (email: string, password: string) => {
     setLoading(true);
-
     return await signInWithEmailAndPassword(auth, email, password)
       .then(userCredential => {
         const user = userCredential.user;
@@ -122,8 +121,8 @@ export const AuthProvider: FC<AuthProviderProps> = props => {
       logout,
       redirectLogin,
     }),
-    [error, loading, logout, signIn, signUp, redirectLogin, user]
+    [error, loading, user, logout, signIn, signUp, redirectLogin]
   );
 
-  return <AuthContext.Provider value={value}> {!initialLoading && children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={value}>{!initialLoading && children}</AuthContext.Provider>;
 };
